@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+datasource db {
+  provider = "postgresql"
+}
+
+model User{
+  id         String     @id  @default(uuid())
+  email      String
+  provider   Provider
+  streams    Stream[]
+  upvotes    Upvote[]
+}
+enum Provider{
+  Google
+}
+//every user entity has one id,one email,one provider and a bunch of streams coz its an array[],and then he can have bunch of upvotes too 
+
+model Stream{
+  id         String      @id  @default(uuid())
+  type       StreamType
+  active     Boolean     @default(true)
+  userId     String
+  user       User        @relation(fields: [userId], references: [id])
+  upvote     Upvote[]
+}
+enum StreamType{
+  Spotify
+  Youtube
+}
+// now every stream has one id , type,and a userid which is type string, now = User        @relation(fields: [userId], references: [id]) ,this means we connecting this field to User table and which field ?-fields:userId and reference to which field of User table ? -id
+
+model Upvote{
+  id          String      @id  @default(uuid())
+  userId      String      
+  streamId    String
+  user        User        @relation(fields: [userId],references: [id])
+  stream      Stream      @relation(fields: [streamId],references: [id])
+  @@unique([userId,streamId])
+}
+
+
+  // id     String      @id  @default(uuid())
+// here id is the field name , stirng datatype, @id=its primary key ,@default=u can skip inserting while creating a new acc, prisma will take care of by itself,uuid=unique id by itself
+
+
+      //      User Table
+
+      // U1   Prakhar@gmail 
+      // U2   Rahul@gmail      
+      // U3   Aman@gmail      
+      //       ▲
+      //       │
+      //       │
+      //  userId
+      //       │
+
+      // Upvote Table
+      // V1   U1   S1
+      // V2   U2   S1
+
+      //       │
+      //   streamId
+      //       │
+      //       ▼
+      //   Stream Table
+
+      // S1   Believer          U3    SPOTIFY
+      // S2   Shape of you      U3    UTUBE
