@@ -8,7 +8,7 @@ datasource db {
 
 model User{
   id         String     @id  @default(uuid())
-  email      String
+  email      String     @unique
   provider   Provider
   streams    Stream[]
   upvotes    Upvote[]
@@ -19,12 +19,17 @@ enum Provider{
 //every user entity has one id,one email,one provider and a bunch of streams coz its an array[],and then he can have bunch of upvotes too 
 
 model Stream{
-  id         String      @id  @default(uuid())
-  type       StreamType
-  active     Boolean     @default(true)
-  userId     String
-  user       User        @relation(fields: [userId], references: [id])
-  upvote     Upvote[]
+  id               String      @id  @default(uuid())
+  type             StreamType
+  url              String
+  extractedID      String
+  title            String
+  smallImg         String
+  bigImg           String
+  active           Boolean     @default(true)
+  userId           String
+  user             User        @relation(fields: [userId], references: [id])
+  upvotes          Upvote[]
 }
 enum StreamType{
   Spotify
