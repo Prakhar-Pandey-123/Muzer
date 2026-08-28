@@ -24,9 +24,9 @@ model Stream{
   type             StreamType
   url              String
   extractedID      String
-  title            String
-  smallImg         String
-  bigImg           String
+  title            String      @default("")
+  smallImg         String      @default("")
+  bigImg           String      @default("")
   active           Boolean     @default(true)
   userId           String
   user             User        @relation(fields: [userId], references: [id])

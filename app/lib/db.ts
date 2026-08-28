@@ -8,3 +8,11 @@ const adapter = new PrismaPg({
 export const prismaClient = new PrismaClient({
   adapter,
 });
+
+// PrismaPg helps Prisma connect specifically to PostgreSQL using the DATABASE_URL.
+
+// PrismaClient gives you, the developer, methods to interact with the database:
+// prismaClient.user.findMany()
+// prismaClient.user.create()
+// prismaClient.user.update()
+// prismaClient.user.delete()
